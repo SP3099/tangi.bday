@@ -1015,9 +1015,9 @@ function triggerCarSection() {
   const msg       = document.getElementById('carMsg');
 
   const VW      = window.innerWidth;
-  const roadH   = window.innerWidth <= 480 ? 60 : 80;   // matches CSS road height
-  // Truck visual width matches CSS clamp(320px, 70vw, 620px)
-  const truckPx = Math.min(620, Math.max(320, VW * 0.70));
+  const roadH   = window.innerWidth <= 480 ? 60 : (window.innerWidth <= 768 ? 64 : 80);
+  // Truck visual width matches CSS clamp(220px, 88vw, 620px) on mobile
+  const truckPx = Math.min(620, Math.max(window.innerWidth <= 480 ? 220 : 260, VW * 0.70));
   // Scale factor: SVG viewBox is 340 wide, rendered at truckPx
   const svgScale = truckPx / 340;
   // Stop position: truck rear (left edge) sits just left of screen centre
@@ -1195,8 +1195,8 @@ function triggerUfoSection() {
     const ufoRect  = ufoWrap.getBoundingClientRect();
     const ufoBottom = ufoRect.bottom;                    // beam starts here
     const VH        = window.innerHeight;
-    // Box will land at 62% down the viewport
-    const boxLandY  = VH * 0.62;
+    // Box will land at 55% down the viewport (adjusted for mobile)
+    const boxLandY  = VH * (window.innerWidth <= 480 ? 0.52 : 0.58);
     const beamTarget = boxLandY - ufoBottom;             // px beam needs to grow
 
     beam.classList.add('active');
@@ -1220,7 +1220,7 @@ function triggerUfoSection() {
   function beamDownBox() {
     const ufoRect  = ufoWrap.getBoundingClientRect();
     const VH       = window.innerHeight;
-    const boxLandY = VH * 0.62;                          // final top position
+    const boxLandY = VH * (window.innerWidth <= 480 ? 0.52 : 0.58);  // final top position
     const boxW     = box.offsetWidth || 100;
 
     // Position box at beam top (just below UFO nozzle), centred
